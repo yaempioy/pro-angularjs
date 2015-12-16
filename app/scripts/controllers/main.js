@@ -10,13 +10,17 @@
 angular.module('myRepoApp')
   .controller('MainCtrl', function ($http, dataUrl) {
     var vm = this;
+    vm.loading = true;
     $http.get(dataUrl)
         .success(function(data){
             console.info('Get Users', data);
             vm.users = data;
         })
-        .error(function(error){
+        .catch(function(error){
             vm.users.error = error;
             console.error('Get users Error', error);
+        })
+        .finally(function () {
+            vm.loading = false;
         });
   });
